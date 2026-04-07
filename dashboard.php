@@ -959,84 +959,126 @@ foreach ($games_quick as $g) {
 </div>
 
         <!-- Recent Transactions -->
-        <div class="tx-card">
-            <div class="tx-header">
-                <div class="card-title-custom">Transaksi Terbaru</div>
-                <a href="riwayat.php" style="font-size:12px;color:var(--primary);text-decoration:none;font-weight:700;letter-spacing:1px">Lihat Semua →</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-custom">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Game</th>
-                            <th>Item</th>
-                            <th>Nominal</th>
-                            <th>Pembayaran</th>
-                            <th>Status</th>
-                            <th>Tanggal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($transactions)): ?>
-                        <tr><td colspan="7" style="text-align:center;color:rgba(255,255,255,.25);padding:40px">Belum ada transaksi</td></tr>
-                        <?php else: ?>
-                        <?php foreach ($transactions as $i => $tx): ?>
-                        <tr>
-                            <td style="color:rgba(255,255,255,.3);font-size:12px"><?= str_pad($tx['id'], 4, '0', STR_PAD_LEFT) ?></td>
-                            <td>
-                                <div class="tx-game"><?= htmlspecialchars($tx['game_name']) ?></div>
-                            </td>
-                            <td>
-                                <div class="tx-item"><?= htmlspecialchars($tx['item_name']) ?></div>
-                            </td>
-                            <td><span class="tx-amount"><?= rupiah($tx['amount']) ?></span></td>
-                            <td><span class="payment-chip"><?= htmlspecialchars($tx['payment_method']) ?></span></td>
-                            <td>
-                                <?php if ($tx['status'] === 'success'): ?>
-                                    <span class="status-badge st-success"><i class="bi bi-check-circle-fill"></i>Berhasil</span>
-                                <?php elseif ($tx['status'] === 'pending'): ?>
-                                    <span class="status-badge st-pending"><i class="bi bi-clock-fill"></i>Pending</span>
-                                <?php else: ?>
-                                    <span class="status-badge st-failed"><i class="bi bi-x-circle-fill"></i>Gagal</span>
-                                <?php endif; ?>
-                            </td>
-                            <td style="font-size:12px;color:rgba(255,255,255,.35)">
-                                <?= date('d M Y', strtotime($tx['created_at'])) ?><br>
-                                <span style="font-size:11px"><?= date('H:i', strtotime($tx['created_at'])) ?></span>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="tx-card">
+    <div class="tx-header">
+        <div class="card-title-custom">Transaksi Terbaru</div>
+        <a href="riwayat.php" style="font-size:12px;color:var(--primary);text-decoration:none;font-weight:700;letter-spacing:1px">Lihat Semua →</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-custom">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Game</th>
+                    <th>Item</th>
+                    <th>Nominal</th>
+                    <th>Pembayaran</th>
+                    <th>Status</th>
+                    <th>Tanggal</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            <?php if (empty($transactions)) { ?>
+                <tr>
+                    <td colspan="7" style="text-align:center;color:rgba(255,255,255,.25);padding:40px">
+                        Belum ada transaksi
+                    </td>
+                </tr>
+            <?php } else { ?>
+
+                <?php foreach ($transactions as $tx) { ?>
+                <tr>
+
+                    <td style="color:rgba(255,255,255,.3);font-size:12px">
+                        <?php echo str_pad($tx['id'], 4, '0', STR_PAD_LEFT); ?>
+                    </td>
+
+                    <td>
+                        <div class="tx-game">
+                            <?php echo htmlspecialchars($tx['game_name']); ?>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="tx-item">
+                            <?php echo htmlspecialchars($tx['item_name']); ?>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span class="tx-amount">
+                            <?php echo rupiah($tx['amount']); ?>
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="payment-chip">
+                            <?php echo htmlspecialchars($tx['payment_method']); ?>
+                        </span>
+                    </td>
+
+                    <td>
+                        <?php if ($tx['status'] == 'success') { ?>
+                            <span class="status-badge st-success">
+                                <i class="bi bi-check-circle-fill"></i>Berhasil
+                            </span>
+                        <?php } elseif ($tx['status'] == 'pending') { ?>
+                            <span class="status-badge st-pending">
+                                <i class="bi bi-clock-fill"></i>Pending
+                            </span>
+                        <?php } else { ?>
+                            <span class="status-badge st-failed">
+                                <i class="bi bi-x-circle-fill"></i>Gagal
+                            </span>
+                        <?php } ?>
+                    </td>
+
+                    <td style="font-size:12px;color:rgba(255,255,255,.35)">
+                        <?php echo date('d M Y', strtotime($tx['created_at'])); ?><br>
+                        <span style="font-size:11px">
+                            <?php echo date('H:i', strtotime($tx['created_at'])); ?>
+                        </span>
+                    </td>
+
+                </tr>
+                <?php } ?>
+
+            <?php } ?>
+
+            </tbody>
+        </table>
+    </div>
+</div>
 
         <!-- Footer -->
-        <div style="text-align:center;padding:28px 0 8px;color:rgba(255,255,255,.15);font-size:12px;letter-spacing:1px">
-            © 2025 GameVault &nbsp;·&nbsp; All rights reserved
-        </div>
+<div style="text-align:center;padding:28px 0 8px;color:rgba(255,255,255,.15);font-size:12px;letter-spacing:1px">
+    © 2025 GameVault &nbsp;·&nbsp; All rights reserved
+</div>
 
-    </div><!-- /page-body -->
+</div><!-- /page-body -->
 </div><!-- /main-content -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 // Chart
-const labels = <?= $chart_labels ?? '["Nov","Des","Jan","Feb","Mar","Apr"]' ?>;
-const values = <?= $chart_values ?? '[180000,320000,250000,410000,295000,420000]' ?>;
 
-const ctx = document.getElementById('spendChart').getContext('2d');
+var labels = <?php echo isset($chart_labels) ? $chart_labels : '["Nov","Des","Jan","Feb","Mar","Apr"]'; ?>;
+var values = <?php echo isset($chart_values) ? $chart_values : '[180000,320000,250000,410000,295000,420000]'; ?>;
 
-const grad = ctx.createLinearGradient(0, 0, 0, 280);
+var ctx = document.getElementById('spendChart').getContext('2d');
+
+var grad = ctx.createLinearGradient(0, 0, 0, 280);
 grad.addColorStop(0, 'rgba(0,240,255,0.3)');
 grad.addColorStop(1, 'rgba(0,240,255,0)');
 
 new Chart(ctx, {
     type: 'line',
     data: {
-        labels,
+        labels: labels,
         datasets: [{
             label: 'Pengeluaran',
             data: values,
@@ -1049,7 +1091,7 @@ new Chart(ctx, {
             pointBorderWidth: 2,
             pointRadius: 5,
             pointHoverRadius: 8,
-            tension: 0.4,
+            tension: 0.4
         }]
     },
     options: {
@@ -1064,21 +1106,27 @@ new Chart(ctx, {
                 bodyColor: '#fff',
                 padding: 12,
                 callbacks: {
-                    label: ctx => ' Rp ' + ctx.raw.toLocaleString('id-ID')
+                    label: function(ctx) {
+                        return ' Rp ' + ctx.raw.toLocaleString('id-ID');
+                    }
                 }
             }
         },
         scales: {
             x: {
                 grid: { color: 'rgba(255,255,255,0.04)' },
-                ticks: { color: 'rgba(255,255,255,0.35)', font: { family: 'Rajdhani', size: 12, weight: '600' } }
+                ticks: {
+                    color: 'rgba(255,255,255,0.35)',
+                    font: { size: 12 }
+                }
             },
             y: {
                 grid: { color: 'rgba(255,255,255,0.04)' },
                 ticks: {
                     color: 'rgba(255,255,255,0.35)',
-                    font: { family: 'Rajdhani', size: 11 },
-                    callback: v => 'Rp ' + (v / 1000).toFixed(0) + 'k'
+                    callback: function(v) {
+                        return 'Rp ' + (v / 1000).toFixed(0) + 'k';
+                    }
                 }
             }
         }
@@ -1087,11 +1135,18 @@ new Chart(ctx, {
 
 // Sidebar toggle
 function toggleSidebar() {
-    const sb = document.getElementById('sidebar');
-    const ov = document.getElementById('sidebarOverlay');
-    sb.classList.toggle('open');
-    ov.classList.toggle('open');
+    var sb = document.getElementById('sidebar');
+    var ov = document.getElementById('sidebarOverlay');
+
+    if (sb.classList.contains('open')) {
+        sb.classList.remove('open');
+        ov.classList.remove('open');
+    } else {
+        sb.classList.add('open');
+        ov.classList.add('open');
+    }
 }
 </script>
+
 </body>
 </html>
